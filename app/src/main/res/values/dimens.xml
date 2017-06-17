@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="imagebutton_apple">31dp</dimen>
+    <dimen name="imagebutton_littleapple">26dp</dimen>
+    <dimen name="imagebutton_largeapple">36dp</dimen>
+    <dimen name="apple_margintop1">100dp</dimen>
+    <dimen name="apple_margintop2">150dp</dimen>
+    <dimen name="apple_margintop3">200dp</dimen>
+    <dimen name="imagebutton_basket_width">70dp</dimen>
+    <dimen name="imagebutton_basket_height">90dp</dimen>
+    <dimen name="imagebutton_basket_margin_bottom">25dp</dimen>
+    <dimen name="alert_width">290dp</dimen>
+    <dimen name="common_circle_width">3dp</dimen>
+    <dimen name="progress_circle_radius">34dp</dimen>
+    <dimen name="choicefontsize">20dp</dimen>
+</resources>
