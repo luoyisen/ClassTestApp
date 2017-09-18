@@ -80,6 +80,36 @@
             android:text="D: 0x7d"
             android:textColor="@color/black" android:textSize="@dimen/choicefontsize"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/rechose_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rightrounded"
+                android:padding="4dp"
+                android:text="重选"
+                android:textColor="#000000"
+                android:textSize="@dimen/choicefontsize" />
+
+            <Button
+                android:id="@+id/confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/falserounded"
+                android:padding="4dp"
+                android:text="确定"
+                android:textColor="#000000"
+                android:textSize="@dimen/choicefontsize" />
+        </LinearLayout>
+
 
     </LinearLayout>
 

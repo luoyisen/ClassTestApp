@@ -24,29 +24,9 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.example.i.classtestapp.interfaces.SettingListener1;
-import com.example.i.classtestapp.interfaces.SettingListener10;
-import com.example.i.classtestapp.interfaces.SettingListener11;
-import com.example.i.classtestapp.interfaces.SettingListener2;
-import com.example.i.classtestapp.interfaces.SettingListener3;
-import com.example.i.classtestapp.interfaces.SettingListener4;
-import com.example.i.classtestapp.interfaces.SettingListener5;
-import com.example.i.classtestapp.interfaces.SettingListener6;
-import com.example.i.classtestapp.interfaces.SettingListener7;
-import com.example.i.classtestapp.interfaces.SettingListener8;
-import com.example.i.classtestapp.interfaces.SettingListener9;
+import com.example.i.classtestapp.interfaces.SettingListener;
 import com.example.i.classtestapp.service.PlayBackgroundMusic;
-import com.example.i.classtestapp.ui.ChoiceAlertDialog1;
-import com.example.i.classtestapp.ui.ChoiceAlertDialog2;
-import com.example.i.classtestapp.ui.ChoiceAlertDialog3;
-import com.example.i.classtestapp.ui.ChoiceAlertDialog4;
-import com.example.i.classtestapp.ui.ChoiceAlertDialog5;
-import com.example.i.classtestapp.ui.JudgeAlertDialog1;
-import com.example.i.classtestapp.ui.JudgeAlertDialog11;
-import com.example.i.classtestapp.ui.JudgeAlertDialog2;
-import com.example.i.classtestapp.ui.JudgeAlertDialog3;
-import com.example.i.classtestapp.ui.JudgeAlertDialog4;
-import com.example.i.classtestapp.ui.JudgeAlertDialog5;
+import com.example.i.classtestapp.ui.ChoiceAlertDialog;
 import com.example.i.classtestapp.views.TextViewTypeface;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -58,7 +38,7 @@ import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class MainActivity extends Activity implements SettingListener1 {
+public class MainActivity extends Activity {
     @BindView(R.id.apple1)
     ImageButton apple1;
     @BindView(R.id.apple12)
@@ -227,21 +207,44 @@ public class MainActivity extends Activity implements SettingListener1 {
                 }
                 break;
             case R.id.apple1:
+                apple1.setClickable(false);
                 basket.setX(getScreenwidth(this) / 22 - 50);
-                JudgeAlertDialog1 alertDialog1 = new JudgeAlertDialog1(this);
-                //alertDialog1.getWindow().setBackgroundDrawable(getDrawable(R.drawable.roundedcornerbakground));
-                alertDialog1.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog1.setOnSettingListener1(this);///监听dialog
-                alertDialog1.show();
+                final ChoiceAlertDialog choiceAlertDialog1 = new ChoiceAlertDialog(this);
+                choiceAlertDialog1.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog1.setQuestion("单片机中，需要接上拉电阻的I/O端口是（ ）");
+                choiceAlertDialog1.setChoiceA("p0");
+                choiceAlertDialog1.setChoiceB("p1");
+                choiceAlertDialog1.setChoiceC("p2");
+                choiceAlertDialog1.setChoiceD("p3");
+                choiceAlertDialog1.setOnSettingListener(new SettingListener() {
+                    @Override
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && !b && !c && !d) {
+                            ++score;
+                            finishedquestions += 1;
+                            startAnimations(apple1);
+                        } else {
+                            finishedquestions += 1;
+                            startShakeAnimations(apple1);
+                        }
+                    }
+                });
+                choiceAlertDialog1.show();
                 break;
             case R.id.apple2:
+                apple2.setClickable(false);
                 basket.setX(getScreenwidth(this) / 22 * 3 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog2 alertDialog2 = new JudgeAlertDialog2(this);
-                alertDialog2.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog2.setOnSettingListener2(new SettingListener2() {
+                final ChoiceAlertDialog choiceAlertDialog2 = new ChoiceAlertDialog(this);
+                choiceAlertDialog2.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog2.setQuestion("C51中，用于定义位操作的关键字是（ ）");
+                choiceAlertDialog2.setChoiceA("include");
+                choiceAlertDialog2.setChoiceB("define");
+                choiceAlertDialog2.setChoiceC("sbit");
+                choiceAlertDialog2.setChoiceD("void");
+                choiceAlertDialog2.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting2(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && !b && c && !d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple2);
@@ -249,65 +252,76 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple2);
                         }
-                        apple2.setClickable(false);
                     }
                 });
-                alertDialog2.show();
+                choiceAlertDialog2.show();
                 break;
             case R.id.apple3:
+                apple3.setClickable(false);
                 basket.setX(getScreenwidth(this) / 22 * 5 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog3 alertDialog3 = new JudgeAlertDialog3(this);
-                alertDialog3.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog3.setOnSettingListener3(new SettingListener3() {
+                final ChoiceAlertDialog choiceAlertDialog3 = new ChoiceAlertDialog(this);
+                choiceAlertDialog3.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog3.setQuestion("多位数码管同时显示时，一般采用（ ）");
+                choiceAlertDialog3.setChoiceA("静态扫描显示");
+                choiceAlertDialog3.setChoiceB("动态扫描显示");
+                choiceAlertDialog3.setChoiceC("");
+                choiceAlertDialog3.setChoiceD("");
+                choiceAlertDialog3.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting3(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && b) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple3);
-
                         } else {
                             finishedquestions += 1;
                             startShakeAnimations(apple3);
-
                         }
-                        apple3.setClickable(false);
-
                     }
                 });
-                alertDialog3.show();
+                choiceAlertDialog3.show();
                 break;
             case R.id.apple4:
-                basket.setX(getScreenwidth(this) / 22 * 7 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog4 alertDialog4 = new JudgeAlertDialog4(this);
-                alertDialog4.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                apple4.setClickable(false);
 
-                alertDialog4.setOnSettingListener4(new SettingListener4() {
+                basket.setX(getScreenwidth(this) / 22 * 7 - getScreenwidth(this) / 192 * 10);
+                final ChoiceAlertDialog choiceAlertDialog4 = new ChoiceAlertDialog(this);
+                choiceAlertDialog4.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog4.setQuestion("采用T0定时器欲定时50ms，应采用哪种工作方式？");
+                choiceAlertDialog4.setChoiceA("方式0");
+                choiceAlertDialog4.setChoiceB("方式1");
+                choiceAlertDialog4.setChoiceC("方式2");
+                choiceAlertDialog4.setChoiceD("方式3");
+                choiceAlertDialog4.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting4(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && b && !c && !d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple4);
-
                         } else {
                             finishedquestions += 1;
                             startShakeAnimations(apple4);
                         }
-                        apple4.setClickable(false);
-
                     }
                 });
-                alertDialog4.show();
+                choiceAlertDialog4.show();
                 break;
             case R.id.apple5:
+                apple5.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 9 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog5 alertDialog5 = new JudgeAlertDialog5(this);
-                alertDialog5.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog5.setOnSettingListener5(new SettingListener5() {
+                final ChoiceAlertDialog choiceAlertDialog5 = new ChoiceAlertDialog(this);
+                choiceAlertDialog5.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog5.setQuestion("按键在按下的时候，其抖动时间一般为？");
+                choiceAlertDialog5.setChoiceA("0-5ms");
+                choiceAlertDialog5.setChoiceB("0-10ms");
+                choiceAlertDialog5.setChoiceC("0-15ms");
+                choiceAlertDialog5.setChoiceD("0-20ms");
+                choiceAlertDialog5.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting5(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && !b && !c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple5);
@@ -315,19 +329,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple5);
                         }
-                        apple5.setClickable(false);
                     }
                 });
-                alertDialog5.show();
+                choiceAlertDialog5.show();
                 break;
             case R.id.apple11:
+                apple11.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 22 - getScreenwidth(this) / 192 * 16);
-                JudgeAlertDialog11 alertDialog11 = new JudgeAlertDialog11(this);
-                alertDialog11.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog11.setOnSettingListener11(new SettingListener11() {
+                final ChoiceAlertDialog choiceAlertDialog11 = new ChoiceAlertDialog(this);
+                choiceAlertDialog11.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog11.setQuestion("单片机中，需要接上拉电阻的I/O端口是（ ）");
+                choiceAlertDialog11.setChoiceA("p0");
+                choiceAlertDialog11.setChoiceB("p1");
+                choiceAlertDialog11.setChoiceC("p2");
+                choiceAlertDialog11.setChoiceD("p3");
+                choiceAlertDialog11.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting11(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && !b && !c && !d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple11);
@@ -335,21 +355,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple11);
                         }
-                        apple11.setClickable(false);
-
-
                     }
                 });
-                alertDialog11.show();
+                choiceAlertDialog11.show();
                 break;
             case R.id.apple12:
+                apple12.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog11 alertDialog12 = new JudgeAlertDialog11(this);
-                alertDialog12.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog12.setOnSettingListener11(new SettingListener11() {
+                final ChoiceAlertDialog choiceAlertDialog12 = new ChoiceAlertDialog(this);
+                choiceAlertDialog12.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog12.setQuestion("下列哪些事件会导致LED故障？");
+                choiceAlertDialog12.setChoiceA("LED损坏");
+                choiceAlertDialog12.setChoiceB("限流电阻过大");
+                choiceAlertDialog12.setChoiceC("无限流电阻");
+                choiceAlertDialog12.setChoiceD("LED接点接触不良");
+                choiceAlertDialog12.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting11(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple12);
@@ -357,19 +381,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple12);
                         }
-                        apple12.setClickable(false);
                     }
                 });
-                alertDialog12.show();
+                choiceAlertDialog12.show();
                 break;
             case R.id.apple13:
+                apple13.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 5 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog5 alertDialog13 = new JudgeAlertDialog5(this);
-                alertDialog13.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog13.setOnSettingListener5(new SettingListener5() {
+                final ChoiceAlertDialog choiceAlertDialog13 = new ChoiceAlertDialog(this);
+                choiceAlertDialog13.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog13.setQuestion("下列哪些事件会导致蜂鸣器不出声？");
+                choiceAlertDialog13.setChoiceA("蜂鸣器电源故障");
+                choiceAlertDialog13.setChoiceB("单片机最小系统故障");
+                choiceAlertDialog13.setChoiceC("蜂鸣器损坏");
+                choiceAlertDialog13.setChoiceD("蜂鸣器引脚接点断开");
+                choiceAlertDialog13.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting5(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple13);
@@ -377,19 +407,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple13);
                         }
-                        apple13.setClickable(false);
                     }
                 });
-                alertDialog13.show();
+                choiceAlertDialog13.show();
                 break;
             case R.id.apple14:
+                apple14.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 7 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog3 alertDialog14 = new JudgeAlertDialog3(this);
-                alertDialog14.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog14.setOnSettingListener3(new SettingListener3() {
+                final ChoiceAlertDialog choiceAlertDialog14 = new ChoiceAlertDialog(this);
+                choiceAlertDialog14.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog14.setQuestion("下列哪些现象属于按键的故障现象？");
+                choiceAlertDialog14.setChoiceA("按键检测灵敏");
+                choiceAlertDialog14.setChoiceB("按键按下无反应");
+                choiceAlertDialog14.setChoiceC("按键多检");
+                choiceAlertDialog14.setChoiceD("按键少检");
+                choiceAlertDialog14.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting3(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple14);
@@ -397,21 +433,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple14);
                         }
-                        apple14.setClickable(false);
-
-
                     }
                 });
-                alertDialog14.show();
+                choiceAlertDialog14.show();
                 break;
             case R.id.apple15:
+                apple15.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 9 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog2 alertDialog15 = new ChoiceAlertDialog2(this);
-                alertDialog15.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog15.setOnSettingListener7(new SettingListener7() {
+                final ChoiceAlertDialog choiceAlertDialog15 = new ChoiceAlertDialog(this);
+                choiceAlertDialog15.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog15.setQuestion("下列哪些现象属于数码管显示的故障现象？");
+                choiceAlertDialog15.setChoiceA("数码管不显示");
+                choiceAlertDialog15.setChoiceB("数码管显示正常");
+                choiceAlertDialog15.setChoiceC("数码管显示断码缺失");
+                choiceAlertDialog15.setChoiceD("数码管显示闪烁不稳定");
+                choiceAlertDialog15.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting7(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && !b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple15);
@@ -419,19 +459,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple15);
                         }
-                        apple15.setClickable(false);
                     }
                 });
-                alertDialog15.show();
+                choiceAlertDialog15.show();
                 break;
             case R.id.apple16:
+                apple16.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 11 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog1 alertDialog16 = new ChoiceAlertDialog1(this);
-                alertDialog16.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog16.setOnSettingListener6(new SettingListener6() {
+                final ChoiceAlertDialog choiceAlertDialog16 = new ChoiceAlertDialog(this);
+                choiceAlertDialog16.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog16.setQuestion("单片机中，需要接上拉电阻的I/O端口是（ ）");
+                choiceAlertDialog16.setChoiceA("p0");
+                choiceAlertDialog16.setChoiceB("p1");
+                choiceAlertDialog16.setChoiceC("p2");
+                choiceAlertDialog16.setChoiceD("p3");
+                choiceAlertDialog16.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting6(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && !b && !c && !d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple16);
@@ -439,19 +485,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple16);
                         }
-                        apple16.setClickable(false);
                     }
                 });
-                alertDialog16.show();
+                choiceAlertDialog16.show();
                 break;
             case R.id.apple17:
+                apple17.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 13 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog3 alertDialog17 = new JudgeAlertDialog3(this);
-                alertDialog17.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog17.setOnSettingListener3(new SettingListener3() {
+                final ChoiceAlertDialog choiceAlertDialog17 = new ChoiceAlertDialog(this);
+                choiceAlertDialog17.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog17.setQuestion("按键在按下的时候，其抖动时间一般为？");
+                choiceAlertDialog17.setChoiceA("0-5ms");
+                choiceAlertDialog17.setChoiceB("0-10ms");
+                choiceAlertDialog17.setChoiceC("0-15ms");
+                choiceAlertDialog17.setChoiceD("0-20ms");
+                choiceAlertDialog17.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting3(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && !b && !c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple17);
@@ -459,19 +511,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple17);
                         }
-                        apple17.setClickable(false);
                     }
                 });
-                alertDialog17.show();
+                choiceAlertDialog17.show();
                 break;
             case R.id.apple18:
+                apple18.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 15 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog4 alertDialog18 = new ChoiceAlertDialog4(this);
-                alertDialog18.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog18.setOnSettingListener9(new SettingListener9() {
+                final ChoiceAlertDialog choiceAlertDialog18 = new ChoiceAlertDialog(this);
+                choiceAlertDialog18.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog18.setQuestion("C51中，用于定义位操作的关键字是（ ）");
+                choiceAlertDialog18.setChoiceA("include");
+                choiceAlertDialog18.setChoiceB("define");
+                choiceAlertDialog18.setChoiceC("sbit");
+                choiceAlertDialog18.setChoiceD("void");
+                choiceAlertDialog18.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting9(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && !b && c && !d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple18);
@@ -479,19 +537,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple18);
                         }
-                        apple18.setClickable(false);
                     }
                 });
-                alertDialog18.show();
+                choiceAlertDialog18.show();
                 break;
             case R.id.apple19:
+                apple19.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 19 - getScreenwidth(this) / 192 * 10);
-                JudgeAlertDialog1 alertDialog19 = new JudgeAlertDialog1(this);
-                alertDialog19.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog19.setOnSettingListener1(new SettingListener1() {
+                final ChoiceAlertDialog choiceAlertDialog19 = new ChoiceAlertDialog(this);
+                choiceAlertDialog19.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog19.setQuestion("采用T0定时器欲定时50ms，应采用哪种工作方式？");
+                choiceAlertDialog19.setChoiceA("方式0");
+                choiceAlertDialog19.setChoiceB("方式1");
+                choiceAlertDialog19.setChoiceC("方式2");
+                choiceAlertDialog19.setChoiceD("方式3");
+                choiceAlertDialog19.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting1(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && b && !c && !d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple19);
@@ -499,19 +563,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple19);
                         }
-                        apple19.setClickable(false);
                     }
                 });
-                alertDialog19.show();
+                choiceAlertDialog19.show();
                 break;
             case R.id.apple20:
+                apple20.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 22 - getScreenwidth(this) / 192 * 16);
-                ChoiceAlertDialog5 alertDialog20 = new ChoiceAlertDialog5(this);
-                alertDialog20.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                alertDialog20.setOnSettingListener10(new SettingListener10() {
+                final ChoiceAlertDialog choiceAlertDialog20 = new ChoiceAlertDialog(this);
+                choiceAlertDialog20.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog20.setQuestion("多位数码管同时显示时，一般采用（ ）");
+                choiceAlertDialog20.setChoiceA("静态扫描显示");
+                choiceAlertDialog20.setChoiceB("动态扫描显示");
+                choiceAlertDialog20.setChoiceC("");
+                choiceAlertDialog20.setChoiceD("");
+                choiceAlertDialog20.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting10(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && b) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple20);
@@ -519,19 +589,25 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple20);
                         }
-                        apple20.setClickable(false);
                     }
                 });
-                alertDialog20.show();
+                choiceAlertDialog20.show();
                 break;
             case R.id.apple6:
+                apple6.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 11 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog1 choiceAlertDialog1 = new ChoiceAlertDialog1(this);
-                choiceAlertDialog1.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                choiceAlertDialog1.setOnSettingListener6(new SettingListener6() {
+                final ChoiceAlertDialog choiceAlertDialog6 = new ChoiceAlertDialog(this);
+                choiceAlertDialog6.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog6.setQuestion("C51中，用于定义位操作的关键字是（ ）");
+                choiceAlertDialog6.setChoiceA("include");
+                choiceAlertDialog6.setChoiceB("define");
+                choiceAlertDialog6.setChoiceC("sbit");
+                choiceAlertDialog6.setChoiceD("void");
+                choiceAlertDialog6.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting6(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && !b && c && !d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple6);
@@ -539,84 +615,103 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple6);
                         }
-                        apple6.setClickable(false);
                     }
                 });
-                choiceAlertDialog1.show();
+                choiceAlertDialog6.show();
                 break;
             case R.id.apple7:
+                apple7.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 13 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog2 choiceAlertDialog2 = new ChoiceAlertDialog2(this);
-                choiceAlertDialog2.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                choiceAlertDialog2.setOnSettingListener7(new SettingListener7() {
+                final ChoiceAlertDialog choiceAlertDialog7 = new ChoiceAlertDialog(this);
+                choiceAlertDialog7.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog7.setQuestion("下列哪些现象属于数码管显示的故障现象？");
+                choiceAlertDialog7.setChoiceA("数码管不显示");
+                choiceAlertDialog7.setChoiceB("数码管显示正常");
+                choiceAlertDialog7.setChoiceC("数码管显示断码缺失");
+                choiceAlertDialog7.setChoiceD("数码管显示闪烁不稳定");
+                choiceAlertDialog7.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting7(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && !b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple7);
-
                         } else {
                             finishedquestions += 1;
                             startShakeAnimations(apple7);
                         }
-                        apple7.setClickable(false);
                     }
                 });
-                choiceAlertDialog2.show();
+                choiceAlertDialog7.show();
                 break;
             case R.id.apple8:
-                basket.setX(getScreenwidth(this) / 22 * 15 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog3 choiceAlertDialog3 = new ChoiceAlertDialog3(this);
-                choiceAlertDialog3.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                choiceAlertDialog3.setOnSettingListener8(new SettingListener8() {
-                    @Override
-                    public void onSetting8(boolean isfalse) {
-                        if (!isfalse) {
+                apple8.setClickable(false);
 
+                basket.setX(getScreenwidth(this) / 22 * 15 - getScreenwidth(this) / 192 * 10);
+                final ChoiceAlertDialog choiceAlertDialog8 = new ChoiceAlertDialog(this);
+                choiceAlertDialog8.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog8.setQuestion("下列哪些现象属于按键的故障现象？");
+                choiceAlertDialog8.setChoiceA("按键检测灵敏");
+                choiceAlertDialog8.setChoiceB("按键按下无反应");
+                choiceAlertDialog8.setChoiceC("按键多检");
+                choiceAlertDialog8.setChoiceD("按键少检");
+                choiceAlertDialog8.setOnSettingListener(new SettingListener() {
+                    @Override
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (!a && b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple8);
-
                         } else {
                             finishedquestions += 1;
                             startShakeAnimations(apple8);
                         }
-
-                        apple8.setClickable(false);
                     }
                 });
-                choiceAlertDialog3.show();
+                choiceAlertDialog8.show();
                 break;
             case R.id.apple9:
+                apple9.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 17 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog4 choiceAlertDialog4 = new ChoiceAlertDialog4(this);
-                choiceAlertDialog4.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                choiceAlertDialog4.setOnSettingListener9(new SettingListener9() {
+                final ChoiceAlertDialog choiceAlertDialog9 = new ChoiceAlertDialog(this);
+                choiceAlertDialog9.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog9.setQuestion("下列哪些事件会导致蜂鸣器不出声？");
+                choiceAlertDialog9.setChoiceA("蜂鸣器电源故障");
+                choiceAlertDialog9.setChoiceB("单片机最小系统故障");
+                choiceAlertDialog9.setChoiceC("蜂鸣器损坏");
+                choiceAlertDialog9.setChoiceD("蜂鸣器引脚接点断开");
+                choiceAlertDialog9.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting9(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple9);
-
                         } else {
                             finishedquestions += 1;
                             startShakeAnimations(apple9);
                         }
-                        apple9.setClickable(false);
                     }
                 });
-                choiceAlertDialog4.show();
+                choiceAlertDialog9.show();
                 break;
             case R.id.apple10:
+                apple10.setClickable(false);
+
                 basket.setX(getScreenwidth(this) / 22 * 19 - getScreenwidth(this) / 192 * 10);
-                ChoiceAlertDialog5 choiceAlertDialog5 = new ChoiceAlertDialog5(this);
-                choiceAlertDialog5.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
-                choiceAlertDialog5.setOnSettingListener10(new SettingListener10() {
+                final ChoiceAlertDialog choiceAlertDialog10 = new ChoiceAlertDialog(this);
+                choiceAlertDialog10.getWindow().setBackgroundDrawableResource(R.drawable.roundedcornerbakground);
+                choiceAlertDialog10.setQuestion("下列哪些事件会导致LED故障？");
+                choiceAlertDialog10.setChoiceA("LED损坏");
+                choiceAlertDialog10.setChoiceB("限流电阻过大");
+                choiceAlertDialog10.setChoiceC("无限流电阻");
+                choiceAlertDialog10.setChoiceD("LED接点接触不良");
+                choiceAlertDialog10.setOnSettingListener(new SettingListener() {
                     @Override
-                    public void onSetting10(boolean isfalse) {
-                        if (!isfalse) {
+                    public void onResult(boolean a, boolean b, boolean c, boolean d) {
+                        if (a && b && c && d) {
                             ++score;
                             finishedquestions += 1;
                             startAnimations(apple10);
@@ -624,10 +719,9 @@ public class MainActivity extends Activity implements SettingListener1 {
                             finishedquestions += 1;
                             startShakeAnimations(apple10);
                         }
-                        apple10.setClickable(false);
                     }
                 });
-                choiceAlertDialog5.show();
+                choiceAlertDialog10.show();
                 break;
             case R.id.btn_getanswer:
                 if (finishedquestions == 20) {
@@ -642,7 +736,6 @@ public class MainActivity extends Activity implements SettingListener1 {
                 break;
         }
     }
-
 
     public class ActivityReceiver extends BroadcastReceiver {
         @Override
@@ -684,18 +777,18 @@ public class MainActivity extends Activity implements SettingListener1 {
     }
 
 
-    @Override
-    public void onSetting1(boolean isfalse) {
-        if (!isfalse) {
-            ++score;
-            finishedquestions += 1;
-            startAnimations(apple1);
-        } else {
-            ++finishedquestions;
-            startShakeAnimations(apple1);
-        }
-        apple1.setClickable(false);
-    }
+//    @Override
+//    public void onSetting1(boolean isfalse) {
+//        if (!isfalse) {
+//            ++score;
+//            finishedquestions += 1;
+//            startAnimations(apple1);
+//        } else {
+//            ++finishedquestions;
+//            startShakeAnimations(apple1);
+//        }
+//        apple1.setClickable(false);
+//    }
 
     public void startAnimations(final View view) {
         TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, basket.getY() - view.getY());
